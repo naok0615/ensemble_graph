@@ -18,9 +18,9 @@ Implementation of "Deep Ensemble Collaborative Learning by using Knowledge-trans
 
 1. Optimize graph
 
-    For example,　the number of models is three. :
+    For example, the number of models is three. :
 ~~~ 
-ipython optimize_graph.py -- --num_nodes=3 --dataset=StanfordDogs_split --gpu_id=0 --num_trial=6000 --optuna_dir ./optimized_graph
+ipython optimize_graph.py -- --num_nodes=3 --dataset=StanfordDogs_split --gpu_id=0 --num_trial=6000 --optuna_dir=./optimized_graph
 ~~~
 
 2. Confirm the result of optimization
