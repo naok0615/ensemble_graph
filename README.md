@@ -15,6 +15,9 @@ Implementation of "Deep Ensemble Collaborative Learning by using Knowledge-trans
 
 ## Usage
 1. Download dataset
+* Stanford Dogs
+* Stanford Cars
+* Caltech-UCSD Birds-200-2011
 
 2. Optimize graph
 
