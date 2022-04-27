@@ -14,20 +14,20 @@ Implementation of "Deep Ensemble Collaborative Learning by using Knowledge-trans
 * graphviz 0.17
 
 ## Usage
-0. Download dataset
+1. Download dataset
 
-1. Optimize graph
+2. Optimize graph
 
     Example of using three models:
 ~~~ 
 ipython optimize_graph.py -- --num_nodes=3 --dataset=StanfordDogs_split --gpu_id=0 --num_trial=6000 --optuna_dir=./optimized_graph/
 ~~~
 
-2. Confirm the result of optimization
+3. Confirm the result of optimization
 
     Open watch_graph.ipynb on jupyterlab and run all cells.
 
-3. Train models by the optimized graph
+4. Train models by the optimized graph
 
     Example of using graphs in ’0000’:
 ~~~ 
