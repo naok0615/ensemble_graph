@@ -2,18 +2,19 @@
 Implementation of "Deep Ensemble Collaborative Learning by using Knowledge-transfer Graph for Fine-grained Object Classification" ([arXiv](https://arxiv.org/abs/2103.14845))
 
 ## Environment
-* python
-* ipython
-* jupyterlab
-* pytorch
-* torchvision
-* optuna
-* easydict
-* graphviz
+* python 3.8.12
+* ipython 7.27.0
+* jupyterlab 2.3.2
+* numpy 1.10.0
+* sklearn 0.24.2
+* pytorch 1.10.0
+* torchvision 0.11.0
+* optuna 2.10.0
+* easydict 1.9
+* graphviz 0.17
 
 ## Usage
 0. Download dataset
-
 
 1. Optimize graph
 
