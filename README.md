@@ -16,10 +16,11 @@ Implementation of "Deep Ensemble Collaborative Learning by using Knowledge-trans
 
 1. Optimize graph
 ~~~ 
-ipython optimize_graph.py -- --num_nodes=4 --dataset=StanfordDogs_split --gpu_id=0 --num_trial=3 --optuna_dir ./optimized_graph
+ipython optimize_graph.py -- --num_nodes=3 --dataset=StanfordDogs_split --gpu_id=0 --num_trial=6000 --optuna_dir ./optimized_graph
 ~~~
 
 2. Confirm the result of optimization
+
 Open watch.ipynb on jupyterlab and run all cells.
 
 3. Train models by the optimized graph
