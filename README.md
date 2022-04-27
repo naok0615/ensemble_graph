@@ -18,7 +18,7 @@ Implementation of "Deep Ensemble Collaborative Learning by using Knowledge-trans
 
 1. Optimize graph
 
-    For example, the number of models is three. :
+    Example of using three models:
 ~~~ 
 ipython optimize_graph.py -- --num_nodes=3 --dataset=StanfordDogs_split --gpu_id=0 --num_trial=6000 --optuna_dir=./optimized_graph/
 ~~~
@@ -29,7 +29,7 @@ ipython optimize_graph.py -- --num_nodes=3 --dataset=StanfordDogs_split --gpu_id
 
 3. Train models by the optimized graph
 
-    For example, '0000' is the top-1 graph. :
+    Example of using graphs in ’0000’:
 ~~~ 
 ipython train_abn.py -- --num_nodes=3 --dataset=StanfordDogs --gpu_id=0 --target_graph=./optimized_graph/0000/ --save_dir=./result/
 ~~~
