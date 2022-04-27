@@ -29,7 +29,7 @@ ipython optimize_graph.py -- --num_nodes=3 --dataset=StanfordDogs_split --gpu_id
 
 4. Train models by the optimized graph
 
-    Example of using graphs in ’0000’:
+    Example of using a ’0000’ graph:
 ~~~ 
 ipython train_abn.py -- --num_nodes=3 --dataset=StanfordDogs --gpu_id=0 --target_graph=./optimized_graph/0000/ --save_dir=./result/
 ~~~
