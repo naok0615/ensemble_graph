@@ -13,28 +13,28 @@ from easydict import EasyDict as edict
 
 from lib import dataset_factory
 from lib import models as model_fuctory
-from lib import loss_func_resnet as loss_func
-from lib import trainer_resnet as trainer_module
+from lib import loss_func_cifar_abn as loss_func
+from lib import trainer_cifar_abn as trainer_module
 from lib import utils
 
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--num_nodes', type=int, default=2)
-parser.add_argument('--target_graph', type=str, default="./optimized_graph/SDogs/2models/0000/")
-parser.add_argument('--dataset', type=str, choices=["StanfordDogs","StanfordCars","CUB2011"], default="StanfordDogs")
+parser.add_argument('--target_graph', type=str, default="./optimized_graph/CIFAR10/2models/0000/")
+parser.add_argument('--dataset', type=str, choices=["CIFAR10","CIFAR100"], default="CIFAR10")
 parser.add_argument('--gpu_id', type=int, default=0)
-parser.add_argument('--save_dir', type=str, default="./result/SDogs_graph/2models/1/")
+parser.add_argument('--save_dir', type=str, default="./result/CIFAR_graph/2models/1/")
 
 try:
     args = parser.parse_args()
 except SystemExit:
     args = parser.parse_args(args=[
         "--num_nodes", "2",
-        "--target_graph", "./optimized_graph/SDogs/2models/0000/",
-        "--dataset", "StanfordDogs",
+        "--target_graph", "./optimized_graph/CIFAR10/2model/0000/",
+        "--dataset", "CIFAR10",
         "--gpu_id", "0",
-        "--save_dir", "./result/SDogs_graph/2models/1/",
+        "--save_dir", "./result/SDogs_graph/5model/1/",
     ])
 
 get_ipython().magic('env CUDA_DEVICE_ORDER=PCI_BUS_ID')
@@ -43,29 +43,19 @@ get_ipython().magic('env CUDA_VISIBLE_DEVICES=$args.gpu_id')
 
 # Set config
 manualSeed = 0
-
-print(args.dataset)
-if args.dataset == "StanfordDogs":
-    DATA_PATH  = './dataset/StanfordDogs/'
-    NUM_CLASS  = 120
-    SCHEDULE   = [150,225]
-    EPOCHS     = 300
-    BATCH_SIZE = 16
-    ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
-elif args.dataset == "StanfordCars":
-    DATA_PATH  = './dataset/StanfordCars/'
-    NUM_CLASS  = 196
-    SCHEDULE   = [150,225]
-    EPOCHS     = 300
-    BATCH_SIZE = 16
-    ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
-elif args.dataset == "CUB2011":
-    DATA_PATH  = './dataset/cub2011/'
-    NUM_CLASS  = 200
-    SCHEDULE   = [150,225]
-    EPOCHS     = 300
-    BATCH_SIZE = 16
-    ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
+ 
+if args.dataset == "CIFAR10":
+    DATA_PATH = './dataset/CIFAR10/'
+    NUM_CLASS = 10
+    SCHEDULE = [150,225]
+    EPOCHS = 300
+    BATCH_SIZE = 128
+elif args.dataset == "CIFAR100":
+    DATA_PATH = './dataset/CIFAR100/'
+    NUM_CLASS = 100
+    SCHEDULE = [150,225]
+    EPOCHS = 300
+    BATCH_SIZE = 128
 
 optim_setting = {
     "name": "SGD",
@@ -84,9 +74,9 @@ optim_setting = {
 # Args Factory
 args_factory = easydict.EasyDict({
     "models": {
-        "ResNet18_vanilla":
+        "ResNet20_ABN":
         {
-            "name": "resnet18_vanilla",
+            "name": "resnet20_abn",
             "args":
             {
                 "num_classes": NUM_CLASS,
@@ -211,11 +201,6 @@ args_factory = easydict.EasyDict({
 
 
 # Load Config
-ensemble = args_factory.models["Ensemble"]
-model    = args_factory.models["ResNet18_vanilla"]
-
-models_list = [ensemble] + [model]*args.num_nodes
-
 load_config_path = args.target_graph+'log/config.json'
 json_open = open(load_config_path, 'r')
 json_load = json.load(json_open)
@@ -223,10 +208,13 @@ json_load = json.load(json_open)
 opt_config = edict(json_load)
 
 for i in range(len(opt_config.models)):
-    if 'num_classes' in opt_config.models[i].args:
+    if opt_config.models[i].name == 'resnet18_abn':
+        opt_config.models[i].name = 'resnet20_abn'
+        opt_config.models[i].args = args_factory.models.ResNet20_ABN.args
+    elif 'num_classes' in opt_config.models[i].args:
         opt_config.models[i].args.num_classes = NUM_CLASS
-
-
+        
+        
 config = easydict.EasyDict(
     {
         #------------------------------Others--------------------------------        
@@ -259,8 +247,8 @@ config = easydict.EasyDict(
         [           
             #----------------Model------------------
             {
-                "name": models_list[i].name,
-                "args": models_list[i].args,
+                "name": opt_config.models[i].name,
+                "args": opt_config.models[i].args,
                 "load_weight":
                 {
                     "path": None,

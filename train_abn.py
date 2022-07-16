@@ -13,8 +13,8 @@ from easydict import EasyDict as edict
 
 from lib import dataset_factory
 from lib import models as model_fuctory
-from lib import loss_func as loss_func
-from lib import trainer as trainer_module
+from lib import loss_func_abn as loss_func
+from lib import trainer_abn as trainer_module
 from lib import utils
 
 
@@ -46,21 +46,21 @@ manualSeed = 0
 
 print(args.dataset)
 if args.dataset == "StanfordDogs":
-    DATA_PATH  = '/workspace/work/KTG_Ensemble_224/dataset/StanfordDogs/'
+    DATA_PATH  = './dataset/StanfordDogs/'
     NUM_CLASS  = 120
     SCHEDULE   = [150,225]
     EPOCHS     = 300
     BATCH_SIZE = 16
     ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
 elif args.dataset == "StanfordCars":
-    DATA_PATH  = '/workspace/work/KTG_Ensemble_224/dataset/StanfordCars/'
+    DATA_PATH  = './dataset/StanfordCars/'
     NUM_CLASS  = 196
     SCHEDULE   = [150,225]
     EPOCHS     = 300
     BATCH_SIZE = 16
     ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
 elif args.dataset == "CUB2011":
-    DATA_PATH  = '/workspace/work/KTG_Ensemble_224/dataset/cub2011/'
+    DATA_PATH  = './dataset/cub2011/'
     NUM_CLASS  = 200
     SCHEDULE   = [150,225]
     EPOCHS     = 300
@@ -220,7 +220,10 @@ json_load = json.load(json_open)
 opt_config = edict(json_load)
 
 for i in range(len(opt_config.models)):
-    if 'num_classes' in opt_config.models[i].args:
+    if opt_config.models[i].name == 'resnet20_abn':
+        opt_config.models[i].name = 'resnet18_abn'
+        opt_config.models[i].args = args_factory.models.ResNet20_ABN.args
+    elif 'num_classes' in opt_config.models[i].args:
         opt_config.models[i].args.num_classes = NUM_CLASS
 
 

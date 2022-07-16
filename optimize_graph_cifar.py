@@ -11,25 +11,25 @@ import optuna
 
 from lib import dataset_factory
 from lib import models as model_fuctory
-from lib import loss_func_abn as loss_func
-from lib import trainer_abn as trainer_module
+from lib import loss_func_cifar_abn as loss_func
+from lib import trainer_cifar_abn as trainer_module
 from lib import utils
 
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--num_nodes', type=int, default=2)
-parser.add_argument('--dataset', type=str, choices=["StanfordDogs_split","StanfordCars_split","CUB2011_split"], default="StanfordDogs_split")
+parser.add_argument('--num_nodes', type=int, default=3)
+parser.add_argument('--dataset', type=str, choices=["CIFAR10_split","CIFAR100_split"], default="CIFAR10_split")
 parser.add_argument('--gpu_id', type=int, default=0)
 parser.add_argument('--num_trial', type=int, default=6000)
-parser.add_argument('--optuna_dir', type=str, default="./optimized_graph/001")
+parser.add_argument('--optuna_dir', type=str, default="./optimized_graph/001/")
 
 try:
     args = parser.parse_args()
 except SystemExit:
     args = parser.parse_args(args=[
         "--num_nodes", "2",
-        "--dataset", "StanfordDogs_split",
+        "--dataset", "CIFAR10_split",
         "--gpu_id", "0",
         "--num_trial", "6000",
         "--optuna_dir", "./optimized_graph/001/",
@@ -42,28 +42,19 @@ get_ipython().magic('env CUDA_VISIBLE_DEVICES=$args.gpu_id')
 # Set config
 manualSeed = 0
  
-if args.dataset == "StanfordDogs_split":
-    DATA_PATH  = './dataset/StanfordDogs/'
-    NUM_CLASS  = 120
+if args.dataset == "CIFAR10_split":
+    DATA_PATH  = './dataset/CIFAR10/'
+    NUM_CLASS  = 10
     SCHEDULE   = [150,225]
     EPOCHS     = 300
-    BATCH_SIZE = 16
-    ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
-elif args.dataset == "StanfordCars_split":
-    DATA_PATH  = './dataset/StanfordCars/'
-    NUM_CLASS  = 196
+    BATCH_SIZE = 128
+elif args.dataset == "CIFAR100_split":
+    DATA_PATH  = './dataset/CIFAR100/'
+    NUM_CLASS  = 100
     SCHEDULE   = [150,225]
     EPOCHS     = 300
-    BATCH_SIZE = 16
-    ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
-elif args.dataset == "CUB2011_split":
-    DATA_PATH  = './dataset/cub2011/'
-    NUM_CLASS  = 200
-    SCHEDULE   = [150,225]
-    EPOCHS     = 300
-    BATCH_SIZE = 16
-    ckpt_path  = "checkpoint/checkpoint_epoch_300.pkl"
-    
+    BATCH_SIZE = 128
+
 optim_setting = {
     "name": "SGD",
     "args":
@@ -210,14 +201,12 @@ def create_object(config):
 # Args Factory
 args_factory = easydict.EasyDict({
     "models": {
-        "ResNet18_ABN":
+        "ResNet20_ABN":
         {
-            "name": "resnet18_abn",
+            "name": "resnet20_abn",
             "args":
             {
                 "num_classes": NUM_CLASS,
-                "pre_ABN":False,
-                "pre_ResNet":False,
             },
             "load_weight":
             {
@@ -385,7 +374,7 @@ GATE_LIST[0] = [
 MODEL_LISTS = [
     ["Ensemble"]
 ]+[
-    ["ResNet18_ABN"]
+    ["ResNet20_ABN"]
     for i in range(args.num_nodes)
 ]
 
