@@ -1,7 +1,7 @@
 # Deep ensemble learning by diverse knowledge distillation
 Implementation of "Deep ensemble learning by diverse knowledge distillation for fine-grained object classification"
 
-[paper] [[arXiv paper](https://arxiv.org/abs/2103.14845)]
+[ECCV2022 paper] [[arXiv paper](https://arxiv.org/abs/2103.14845)]
 
 ## Environment
 Our source code is based on [https://github.com/somaminami/DCL](https://github.com/somaminami/DCL) implemented with PyTorch. We are grateful for the author!
@@ -100,4 +100,4 @@ ABN based on ResNet-18:
 | Independent | 5 |             - | Stanford Dogs | [link](https://www.dropbox.com/s/qbm98ku0qvmvohh/config.json?dl=1) | [link](https://www.dropbox.com/sh/extwlhii4ua6qfd/AAC5B4BizrYXYZFFjoN6hU70a?dl=1) | [link](https://www.dropbox.com/s/m86k3s767r88l8u/checkpoint_epoch_300.pkl?dl=1) | 72.61 |
 | Ours        | 5 | Stanford Dogs | Stanford Dogs | [link](https://www.dropbox.com/s/3ymozw0td7wvmc2/config.json?dl=1) | [link](https://www.dropbox.com/sh/96yjaw2s5ha3jaz/AABpW8GouU3gB1fVKuT0mWOJa?dl=1) | [link](https://www.dropbox.com/s/n3qti2cs5syp7gv/checkpoint_epoch_300.pkl?dl=1) | 74.52 |
 
-If you try the trained models using the other datasets, please see [TRAINED.md](https://github.com/naok0615/ensemble_graph/blob/main/TRAINED.md).
+If you try the trained models using the other datasets, please see [[coming soon](https://github.com/naok0615/ensemble_graph/blob/main/TRAINED.md)].
