@@ -1,7 +1,7 @@
 # Deep ensemble learning by diverse knowledge distillation
 Implementation of "Deep ensemble learning by diverse knowledge distillation for fine-grained object classification"
 
-[ECCV2022 paper] [[arXiv paper](https://arxiv.org/abs/2103.14845)]
+[[ECCV2022](https://www.ecva.net/papers/eccv_2022/papers_ECCV/html/5616_ECCV_2022_paper.php)]
 
 ## Environment
 Our source code is based on [https://github.com/somaminami/DCL](https://github.com/somaminami/DCL) implemented with PyTorch. We are grateful for the author!
